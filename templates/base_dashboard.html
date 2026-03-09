@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Student MS</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}" title="Dashboard">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="/students" class="nav-link {% if '/students' in request.path %}active{% endif %}" title="Students">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-label">Students</span>
+                </a>
+                <a href="/add_student" class="nav-link {% if '/add_student' in request.path %}active{% endif %}" title="Add Student">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="nav-label">Add Student</span>
+                </a>
+                <a href="/analytics" class="nav-link {% if '/analytics' in request.path %}active{% endif %}" title="Analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="nav-label">Analytics</span>
+                </a>
+                <a href="/fees" class="nav-link {% if '/fees' in request.path %}active{% endif %}" title="Fees">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span class="nav-label">Fees</span>
+                </a>
+                <a href="/assignments" class="nav-link {% if '/assignments' in request.path %}active{% endif %}" title="Assignments">
+                    <i class="fas fa-tasks"></i>
+                    <span class="nav-label">Assignments</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                    <h1>{% block page_title %}{% endblock %}</h1>
+                </div>
+                <div class="header-right">
+                    <button class="btn-outline" id="notificationBtn"><i class="fas fa-bell"></i></button>
+                    <div class="user-dropdown">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span>Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                        <div class="dropdown-menu">
+                            <a href="/profile">Profile</a>
+                            <a href="#">Settings</a>
+                            <form method="POST" action="/logout" style="display: inline;">
+                                <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; padding: 0; font: inherit;">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Notifications -->
+            <div class="notifications" id="notifications"></div>
+
+            <!-- Page Content -->
+            <main class="content-area">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Sidebar toggle for responsive
+        document.getElementById('sidebarToggle').onclick = function() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+        };
+        // User dropdown
+        document.querySelector('.user-dropdown').onclick = function() {
+            this.classList.toggle('open');
+        };
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
